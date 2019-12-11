@@ -3,15 +3,17 @@
 class Desk {
     private $figures = [];
 
-    public function __construct() {
-        $this->figures['a'][1] = new Rook(false);
-        $this->figures['b'][1] = new Knight(false);
-        $this->figures['c'][1] = new Bishop(false);
-        $this->figures['d'][1] = new Queen(false);
-        $this->figures['e'][1] = new King(false);
-        $this->figures['f'][1] = new Bishop(false);
-        $this->figures['g'][1] = new Knight(false);
-        $this->figures['h'][1] = new Rook(false);
+	private $isBlackMove = false; //т.к. первыми ходят белые
+
+	public function __construct() {
+		$this->figures['a'][1] = new Rook(false);
+		$this->figures['b'][1] = new Knight(false);
+		$this->figures['c'][1] = new Bishop(false);
+		$this->figures['d'][1] = new Queen(false);
+		$this->figures['e'][1] = new King(false);
+		$this->figures['f'][1] = new Bishop(false);
+		$this->figures['g'][1] = new Knight(false);
+		$this->figures['h'][1] = new Rook(false);
 
         $this->figures['a'][2] = new Pawn(false);
         $this->figures['b'][2] = new Pawn(false);
@@ -51,11 +53,21 @@ class Desk {
         $xTo   = $match[3];
         $yTo   = $match[4];
 
-        if (isset($this->figures[$xFrom][$yFrom])) {
-            $this->figures[$xTo][$yTo] = $this->figures[$xFrom][$yFrom];
-        }
-        unset($this->figures[$xFrom][$yFrom]);
-    }
+		if (isset($this->figures[$xFrom][$yFrom])) {
+			if ($this->figures[$xFrom][$yFrom]->isBlack === $this->isBlackMove) {
+				$this->figures[$xTo][$yTo] = $this->figures[$xFrom][$yFrom];
+			}else{
+				throw new Exception($xFrom.$yFrom.'-'.$xTo.$yTo." - недопустимый ход! Сейчас ход другого игрока!");
+			}
+		}
+		unset($this->figures[$xFrom][$yFrom]);
+//		переключаем ожидаемого игрока
+		if($this->isBlackMove){
+			$this->isBlackMove = false;
+		}else{
+			$this->isBlackMove = true;
+		}
+	}
 
     public function dump() {
         for ($y = 8; $y >= 1; $y--) {
