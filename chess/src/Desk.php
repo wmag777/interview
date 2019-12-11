@@ -76,7 +76,7 @@ class Desk {
                 if (isset($this->figures[$x][$y])) {
                     echo $this->figures[$x][$y];
                 } else {
-                    echo '-';
+                    echo ' -';
                 }
             }
             echo "\n";
