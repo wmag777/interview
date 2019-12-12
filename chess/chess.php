@@ -4,7 +4,6 @@ try {
     foreach (glob('src/*.php') as $file) {
         require_once $file;
     }
-
     $desk = new Desk();
 
     $args = $argv;

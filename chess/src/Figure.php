@@ -9,6 +9,6 @@ class Figure {
 
     /** @noinspection PhpToStringReturnInspection */
     public function __toString() {
-        throw new \Exception("Not implemented");
+        throw new \RuntimeException("Not implemented");
     }
 }
